@@ -1,21 +1,16 @@
 function logGenerator(req, res, next) {
-    const time = new Date()
-
-    const year = time.getFullYear()
-    //回傳本地時間的月份（0-11） + 1
-    const month = time.getMonth() + 1
-    const date = time.getDate()
-
-    const hour = time.getHours()
-    const minute = time.getMinutes()
-    const second = time.getSeconds()
+    const reqTime = new Date()
 
     const method = req.method
     const URL = req.originalUrl
 
-    const stamps = `${year}-${month}-${date} ${hour}:${minute}:${second} | ${method} from ${URL}`
+    res.on('finish', () => {
+        const resTime = new Date()
+        const timeDiff = resTime - reqTime
+        const stamps = `${reqTime.toLocaleString()} | ${method} from ${URL} | total time: ${timeDiff} ms`
+        console.log(stamps)
+    })
 
-    console.log(stamps)
     next()
 }
 
