@@ -3,6 +3,11 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const logGenerator = require('./logGenerator')
+
+app.use(logGenerator)
+
+
 app.get('/', (req, res) => {
     res.send('列出全部 Todo')
 })
